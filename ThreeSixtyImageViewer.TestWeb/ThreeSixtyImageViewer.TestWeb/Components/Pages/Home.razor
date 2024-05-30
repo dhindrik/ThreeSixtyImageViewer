@@ -1,0 +1,26 @@
+﻿@page "/"
+@rendermode rendermode
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<ThreeSixtyImage @rendermode="new InteractiveServerRenderMode(prerender: false)" ImageBytes="imageBytes" />
+@* <ThreeSixtyImage @rendermode="new InteractiveServerRenderMode(prerender: false)" ImageUrl="office.jpg" /> *@
+
+@code{
+
+	private static IComponentRenderMode rendermode = new InteractiveServerRenderMode(prerender: false);
+
+	private byte[]? imageBytes;
+
+	protected override async Task OnParametersSetAsync()
+	{
+		var client = new HttpClient();
+
+		imageBytes = await client.GetByteArrayAsync("https://pannellum.org/images/cerro-toco-0.jpg");
+	}
+
+}

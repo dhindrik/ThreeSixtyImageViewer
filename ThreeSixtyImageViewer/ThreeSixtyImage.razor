@@ -1,0 +1,61 @@
+﻿@using Microsoft.JSInterop
+
+@inject IJSRuntime JSRuntime
+
+<div>
+    <div id="panorama" style="width: 100vw; height:100vh;"></div>
+</div>
+@code {
+    [Parameter]
+    public string? ImageUrl { get; set; }
+
+    [Parameter]
+    public byte[]? ImageBytes { get; set; }
+
+    [Parameter]
+    public string ImageBytesFormat { get; set; } = "jpg";
+
+    private IJSObjectReference? jsModule;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {      
+
+        if(firstRender)
+        {
+            await LoadJsModule();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {   
+        await LoadJsModule();
+
+        if (ImageUrl is not null && jsModule is not null)
+        {
+            await jsModule.InvokeVoidAsync("LoadImage", "panorama", ImageUrl);
+        }
+        else if (ImageBytes is not null && jsModule is not null)
+        {
+            var base64 = Convert.ToBase64String(ImageBytes);
+            var base64Src = $"data:image/{ImageBytesFormat};base64, {base64}";
+
+            await jsModule.InvokeVoidAsync("LoadImage", "panorama", base64Src);
+        }
+    }
+
+    private async Task LoadJsModule()
+    {
+        try
+        {
+            if (jsModule is null)
+            {
+                jsModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/ThreeSixtyImageViewer/js/index.js");
+            }
+        }
+        catch(Exception)
+        {
+            Console.WriteLine("Error loading js module");
+        }
+    
+    }
+}
