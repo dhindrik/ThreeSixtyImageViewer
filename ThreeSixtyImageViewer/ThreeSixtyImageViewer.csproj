@@ -4,15 +4,22 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+
+	  <PackageId>ThreeSixtyImageViewer</PackageId>
+	  <PackageLicenseUrl>https://github.com/dhindrik/ThreeSixtyImageViewer/blob/master/LICENSE</PackageLicenseUrl>
+	  <Copyright>Copyright 2024 - Daniel Hindrikes</Copyright>
+	  <Authors>Daniel Hindrikes</Authors>
+	  <Company />
+	  <Product>A Blazor component for showing 360 images</Product>
+
+	  <Description>A Blazor component for showing 360 images.</Description>
+	  <Version>1.0.0</Version>
+
   </PropertyGroup>
 
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="npm-packages\" />
   </ItemGroup>
 
 </Project>
